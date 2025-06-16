@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import io
 
-st.title("🎶 Split Excel File by Artist")
-st.write("Upload an Excel file. The app will create a separate tab for each artist.")
+st.title("🎶 split excel file by artist")
+st.write("upload an excel file. the app will create a separate tab for each artist.")
 
 uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx", "xls"])
 
