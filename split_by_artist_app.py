@@ -2,12 +2,21 @@ import streamlit as st
 import pandas as pd
 import io
 
-st.title("🎶 Split Excel File by Artist")
-st.write("Upload an Excel file. The app will create a separate tab for each artist.")
+st.title("🎶 Split File by Artist")
+st.write("Upload an Excel or CSV file. The app will create a separate tab for each artist.")
 
-uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx", "xls"])
+uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx", "xls", "csv"])
+
+def convert_csv_to_excel(uploaded_file):
+    csv_df = pd.read_csv(uploaded_file)
+    excel_buffer = io.BytesIO()
+    csv_df.to_excel(excel_buffer, index=False, engine='openpyxl')
+    excel_buffer.seek(0)
+    return excel_buffer
 
 if uploaded_file:
+    if uploaded_file.name.endswith(".csv"):
+        uploaded_file = convert_csv_to_excel(uploaded_file)
     try:
         # Step 1: Read first 15 rows to detect where the actual header is
         preview = pd.read_excel(uploaded_file, header=None, nrows=15)
